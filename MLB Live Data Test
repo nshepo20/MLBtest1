@@ -1,1 +1,29 @@
+import requests
+import json
+
+# Get the list of all MLB games that are currently in progress.
+url = "https://api.mlb.com/v1/game/list?status=in_progress"
+response = requests.get(url)
+data = json.loads(response.content)
+
+# Select the game that you want to display the score for.
+game_id = data["games"][0]["game_id"]
+
+# Get the live score for the selected game.
+url = "https://api.mlb.com/v1/game/{}/live-data".format(game_id)
+response = requests.get(url)
+data = json.loads(response.content)
+
+# Display the live score for the selected game.
+print("Game ID:", game_id)
+print("Away Team:", data["teams"]["away"]["name"])
+print("Away Score:", data["teams"]["away"]["score"])
+print("Home Team:", data["teams"]["home"]["name"])
+print("Home Score:", data["teams"]["home"]["score"])
+print("Inning:", data["inning"]["current_inning"])
+print("Top of the Inning:", data["inning"]["top_of_inning"])
+print("Outs:", data["inning"]["outs"])
+print("Bases:", data["bases"])
+print("Pitcher:", data["pitcher"]["name"])
+print("Batter:", data["batter"]["name"])
 
